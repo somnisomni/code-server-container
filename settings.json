@@ -1,0 +1,9 @@
+{
+    "editor.fontFamily": "\"Noto Sans Mono CJK KR\", \"Noto Sans Mono CJK\", \"Noto Sans Mono\", \"D2Coding\", \"NanumGothicCoding\", monospace",
+    "terminal.integrated.cwd": "/home/coder/projects",
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "editor.mouseWheelZoom": true,
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "liveServer.settings.port": 30000
+}
