@@ -11,6 +11,9 @@
 # Use latest Ubuntu LTS image as base
 FROM ubuntu:latest
 
+LABEL org.opencontainers.image.authors="me@somni.one"
+LABEL maintainer="me@somni.one"
+LABEL description="Customized code-server Docker image for somni"
 
 ##### INSTALLATION OF REQUIRED PACKAGES #####
 # Workaround: pre-setup `tzdata` to prevent stuck during package installation
