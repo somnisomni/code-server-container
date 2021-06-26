@@ -13,10 +13,16 @@ Just execute `$ docker build .` on root of the repository, or run `build.sh` scr
   - `.NET SDK` preinstalled
   - `dpkg-dev` preinstalled for debian packaging development
   - Latest `GCC` and `build-essential` preinstalled
-  - `Node.js` preinstalled using [`NVM`](https://nvm.sh)
+  - Latest `Node.js` LTS version preinstalled using [`NVM`](https://nvm.sh)
   - Other various essential packages preinstalled, see [Dockerfile](Dockerfile)
   - [Branding](branding.sh)
 
 ## Port exposes
   - `code-server` itself : **8080**
   - Development server *<small>(e.g. Live Server)</small>* : **30000 - 30002**
+
+## Note
+**Huge image** *(about 1~2GB)* will be produced when build this customized Dockerfile
+so I will not upload the image to any Docker repositories.
+
+Please build locally if you want to use this.
