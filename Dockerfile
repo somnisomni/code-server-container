@@ -11,8 +11,11 @@
 # Use latest Ubuntu LTS image as base
 FROM ubuntu:latest
 
+LABEL org.opencontainers.image.url="https://github.com/somnisomni/docker-code-server"
+LABEL org.opencontainers.image.source="https://github.com/somnisomni/docker-code-server"
 LABEL org.opencontainers.image.authors="me@somni.one"
 LABEL maintainer="me@somni.one"
+LABEL org.opencontainers.image.description="Customized code-server Docker image for somni"
 LABEL description="Customized code-server Docker image for somni"
 
 ##### INSTALLATION OF REQUIRED PACKAGES #####
