@@ -135,7 +135,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     PATH="${PATH}:/usr/share/dotnet"
 
 # VSCode envvars
-ENV CODE_DATA="${HOME}/.local/share/code-server"
+ENV CODE_DATA="~/.local/share/code-server"
 ENV CODE_USER="${CODE_DATA}/User" \
     CODE_EXTENSIONS="${CODE_DATA}/extensions"
 
