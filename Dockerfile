@@ -78,7 +78,7 @@ RUN apt-get install --no-install-recommends -y \
 
 # Install .NET SDK 5.0
 RUN apt-get install --no-install-recommends -y \
-    dotnet-sdk-5.0
+    dotnet-sdk-6.0
 
 # Register en-US / ko-KR locales
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8; \
