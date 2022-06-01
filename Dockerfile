@@ -149,11 +149,12 @@ COPY --chown=coder:coder settings.json ${CODE_USER}/
 
 
 ##### NON-ROOT PACKAGE INSTALLATION #####
-# Install Node.js LTS using NVM
+# Install Node.js LTS using NVM; Install Yarn
 RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh" | bash \
     && export NVM_DIR="$HOME/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && nvm install --lts --latest-npm
+    && nvm install --lts --latest-npm \
+    && npm install --location=global yarn
 
 
 ##### CLEANUP & FINALIZE #####
