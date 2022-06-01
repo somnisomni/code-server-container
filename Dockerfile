@@ -9,7 +9,7 @@
 #################################################################################
 
 # Use latest Ubuntu LTS image as base
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 LABEL org.opencontainers.image.url="https://github.com/somnisomni/docker-code-server"
 LABEL org.opencontainers.image.source="https://github.com/somnisomni/docker-code-server"
@@ -63,9 +63,9 @@ RUN apt-get install --no-install-recommends -y \
 # Install essential packages for building sources / Install DPKG-dev
 RUN apt-get install --no-install-recommends -y \
     build-essential \
-    gcc-10 \
-    cpp-10 \
-    g++-10 \
+    gcc-11 \
+    cpp-11 \
+    g++-11 \
     dpkg-dev \
     make \
     patch \
@@ -175,11 +175,11 @@ EXPOSE 8080
 EXPOSE 30000-30002
 
 # Entrypoint
-ENTRYPOINT ["/usr/bin/entrypoint.sh",        \
-                "/home/coder/projects",      \
-                "--bind-addr=0.0.0.0:8080",  \
-                "--disable-telemetry",       \
-                "--user-data-dir={0}",       \
-                "--extensions-dir={1}"]
+ENTRYPOINT ["/usr/bin/entrypoint.sh",    \
+            "/home/coder/projects",      \
+            "--bind-addr=0.0.0.0:8080",  \
+            "--disable-telemetry",       \
+            "--user-data-dir={0}",       \
+            "--extensions-dir={1}"]
 #       {0] will be replaced to $CODE_DATA
 #       {1} will be replaced to $CODE_EXTENSIONS
