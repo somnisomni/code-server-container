@@ -9,7 +9,7 @@
 #################################################################################
 
 # Use latest Ubuntu LTS image as base
-FROM ubuntu:22.04
+FROM ubuntu:latest
 
 LABEL org.opencontainers.image.url="https://github.com/somnisomni/docker-code-server"
 LABEL org.opencontainers.image.source="https://github.com/somnisomni/docker-code-server"
@@ -76,7 +76,7 @@ RUN apt-get install --no-install-recommends -y \
     python3 \
     python3-pip
 
-# Install .NET SDK 5.0
+# Install .NET SDK 6.0
 RUN apt-get install --no-install-recommends -y \
     dotnet-sdk-6.0
 
