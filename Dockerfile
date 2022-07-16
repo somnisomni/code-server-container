@@ -63,9 +63,9 @@ RUN apt-get install --no-install-recommends -y \
 # Install essential packages for building sources / Install DPKG-dev
 RUN apt-get install --no-install-recommends -y \
     build-essential \
-    gcc-11 \
-    cpp-11 \
-    g++-11 \
+    gcc-12 \
+    cpp-12 \
+    g++-12 \
     dpkg-dev \
     make \
     patch \
