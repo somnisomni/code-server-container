@@ -117,8 +117,8 @@ RUN chmod +x /usr/bin/entrypoint.sh
 
 ##### SETUP CONTAINER ENVIRONMENT #####
 # User & group (`coder`) setup
-RUN addgroup --gid 1000 coder \
-    && adduser --uid 1000 --ingroup coder --home /home/coder --shell /bin/bash --disabled-password --gecos "" coder \
+RUN addgroup --gid 3939 coder \
+    && adduser --uid 3939 --ingroup coder --home /home/coder --shell /bin/bash --disabled-password --gecos "" coder \
     && usermod -aG sudo coder \
     && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 USER coder:coder
