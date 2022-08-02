@@ -1,22 +1,26 @@
 ### [ somnisomni/docker-code-server ]
-### code-server Dockerfile
+### code-server Containerfile (specific build instruction file for Podman)
 
 ## Dockerfile referenced from https://github.com/monostream/code-server
 #################################################################################
 ## BIND
-# (required)    [host project folder]     -> /home/coder/projects
-# (recommended) [host vscode conf folder] -> /home/coder/.local/share/code-server
+# (required)    [host project folder]     -> /root/projects
+# (recommended) [host vscode conf folder] -> /root/.local/share/code-server
+#
+#  * Bind these folders with "Z" flag
+#################################################################################
+#        DO NOT START THE CONTAINER WITH ROOT USER/PERMISSION
 #################################################################################
 
 # Use latest Ubuntu LTS image as base
-FROM ubuntu:latest
+FROM docker.io/ubuntu:latest
 
 LABEL org.opencontainers.image.url="https://github.com/somnisomni/docker-code-server"
 LABEL org.opencontainers.image.source="https://github.com/somnisomni/docker-code-server"
 LABEL org.opencontainers.image.authors="me@somni.one"
 LABEL maintainer="me@somni.one"
-LABEL org.opencontainers.image.description="Customized code-server Docker image for somni"
-LABEL description="Customized code-server Docker image for somni"
+LABEL org.opencontainers.image.description="Customized code-server container image for somni"
+LABEL description="Customized code-server container image for somni"
 
 # Architecture
 # Specify the architecture when build the image, with `--build-arg` option
@@ -24,10 +28,11 @@ LABEL description="Customized code-server Docker image for somni"
 ARG ARCH=amd64
 RUN echo "* Architecture: ${ARCH}"
 
-# User
-ARG UID=1000
-ARG GID=1000
-RUN echo "* UID: ${UID}, GID: ${GID}"
+# Default user inside the container is `root`
+# Non-root user will cause many issues with binded-from-host files/folders
+USER root
+WORKDIR /root
+ENV HOME=/root
 
 ##### INSTALLATION OF REQUIRED PACKAGES #####
 # Workaround: pre-setup `tzdata` to prevent stuck during package installation
@@ -107,8 +112,8 @@ RUN chmod +x /tmp/branding.sh \
 # Install fixuid
 RUN FIXUID_VERSION=$(curl -sL https://api.github.com/repos/boxboat/fixuid/releases/latest | grep '"name"' | head -1 | awk -F '[:]' '{print $2}' | sed -e 's/"//g' | sed -e 's/,//g' | sed -e 's/ //g' | sed -e 's/\r//g') \
     && FIXUID_VERSION_WITHOUT_V=$(echo $FIXUID_VERSION | sed -e 's/v//g') \
-    && USER=coder \
-    && GROUP=coder \
+    && USER=root \
+    && GROUP=root \
     && curl -L "https://github.com/boxboat/fixuid/releases/download/${FIXUID_VERSION}/fixuid-${FIXUID_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
     && chown root:root /usr/local/bin/fixuid \
     && chmod 4755 /usr/local/bin/fixuid \
@@ -122,15 +127,6 @@ RUN chmod +x /usr/bin/entrypoint.sh
 
 
 ##### SETUP CONTAINER ENVIRONMENT #####
-# User & group (`coder`) setup
-RUN addgroup --gid ${GID} coder \
-    && adduser --uid ${UID} --ingroup coder --home /home/coder --shell /bin/bash --disabled-password --gecos "" coder \
-    && usermod -aG sudo coder \
-    && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
-USER coder:coder
-WORKDIR /home/coder
-ENV HOME="/home/coder"
-
 # Set language envvar to Korean UTF-8
 ENV LANG=ko_KR.utf8
 
@@ -149,7 +145,7 @@ RUN mkdir -p ~/projects; \
     mkdir -p ${CODE_USER}
 
 # Copy initial VSCode settings.json (will be ignored when binding host's VSCode data folder)
-COPY --chown=coder:coder settings.json ${CODE_USER}/
+COPY --chown=root:root settings.json ${CODE_USER}/
 
 
 ##### NON-ROOT PACKAGE INSTALLATION #####
@@ -169,7 +165,7 @@ RUN sudo apt-get clean -y && sudo rm -rf /var/lib/apt/lists/*
 RUN sudo rm -rf /tmp/*
 
 # Take ownership of home folder
-RUN sudo chown -R coder:coder /home/coder
+RUN sudo chown -R root:root ${HOME}
 
 
 ##### DOCKER CONTAINER CONFIGURATIONS #####
@@ -182,7 +178,7 @@ EXPOSE 39002
 
 # Entrypoint
 ENTRYPOINT ["/usr/bin/entrypoint.sh",    \
-            "/home/coder/projects",      \
+            "/root/projects",            \
             "--bind-addr=0.0.0.0:8080",  \
             "--disable-telemetry",       \
             "--user-data-dir={0}",       \
