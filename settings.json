@@ -1,9 +1,42 @@
 {
+    /* Default font settings */
     "editor.fontFamily": "\"Noto Sans Mono CJK KR\", \"Noto Sans Mono CJK\", \"Noto Sans Mono\", \"D2Coding\", \"NanumGothicCoding\", monospace",
+    "editor.inlayHints.fontFamily": "\"Noto Sans Mono CJK KR\", \"Noto Sans Mono CJK\", \"Noto Sans Mono\", \"D2Coding\", \"NanumGothicCoding\", monospace",
+    "editor.fontSize": 14,
+    "terminal.integrated.fontFamily": "\"Noto Sans Mono CJK KR\", \"Noto Sans Mono CJK\", \"Noto Sans Mono\", \"D2Coding\", \"NanumGothicCoding\", monospace",
+    
+    /* Eye candies */
+    "editor.smoothScrolling": true,
+    "editor.cursorBlinking": "smooth",
+    "terminal.integrated.cursorBlinking": true,
+    "workbench.list.smoothScrolling": true,
+    "workbench.colorTheme": "Dracula",
+    "workbench.iconTheme": "material-icon-theme",
+    
+    /* Default terminal settings */
     "terminal.integrated.cwd": "/home/coder/projects",
-    "terminal.integrated.shell.linux": "/bin/bash",
+    
+    /* Default editor settings */
     "editor.mouseWheelZoom": true,
+    "workbench.startupEditor": "none",
+    "telemetry.telemetryLevel": "off",
+    
+    /* Language specific settings */
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    
+    /* Git */
     "git.autofetch": true,
     "git.enableSmartCommit": true,
-    "liveServer.settings.port": 30000
+    "git.ignoreSubmodules": true,
+    
+    /* Live Server */
+    "liveServer.settings.port": 39002,
+    "liveServer.settings.NoBrowser": true,
+    
+    /* GitLens plugin */
+    "gitlens.defaultDateFormat": "YYYY-MM-DD A hh:mm:ss",
+    "gitlens.defaultDateShortFormat": "YYYY-MM-DD"
+    
+    /* Any further changes goes below */
 }
