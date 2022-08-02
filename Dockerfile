@@ -18,6 +18,11 @@ LABEL maintainer="me@somni.one"
 LABEL org.opencontainers.image.description="Customized code-server Docker image for somni"
 LABEL description="Customized code-server Docker image for somni"
 
+# Architecture
+# Specify the architecture when build the image, with `--build-arg` option
+# Default target architecture is `amd64`, possible value is `arm64` for AArch64
+ARG ARCH=amd64
+
 ##### INSTALLATION OF REQUIRED PACKAGES #####
 # Workaround: pre-setup `tzdata` to prevent stuck during package installation
 ENV TZ=Asia/Seoul
@@ -89,8 +94,8 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 # Install code-server
 RUN CODE_VERSION=$(curl -sL https://api.github.com/repos/cdr/code-server/releases/latest | grep '"name"' | head -1 | awk -F '[:]' '{print $2}' | sed -e 's/"//g' | sed -e 's/,//g' | sed -e 's/ //g' | sed -e 's/\r//g') \
     && CODE_VERSION_WITHOUT_V=$(echo $CODE_VERSION | sed -e 's/v//g') \
-    && curl -fsL "https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION_WITHOUT_V}-linux-amd64.tar.gz" | tar -zx -C /usr/local/bin \
-    && mv /usr/local/bin/code-server-${CODE_VERSION_WITHOUT_V}-linux-amd64 /usr/local/bin/code-server \
+    && curl -fsL "https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
+    && mv /usr/local/bin/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH} /usr/local/bin/code-server \
     && ln -s /usr/local/bin/code-server/bin/code-server /usr/bin/code-server
 
 # code-server custom branding
@@ -105,7 +110,7 @@ RUN \
     && FIXUID_VERSION_WITHOUT_V=$(echo $FIXUID_VERSION | sed -e 's/v//g') \
     && USER=coder \
     && GROUP=coder \
-    && curl -fsL "https://github.com/boxboat/fixuid/releases/download/${FIXUID_VERSION}/fixuid-${FIXUID_VERSION_WITHOUT_V}-linux-amd64.tar.gz" | tar -zx -C /usr/local/bin \
+    && curl -fsL "https://github.com/boxboat/fixuid/releases/download/${FIXUID_VERSION}/fixuid-${FIXUID_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
     && chown root:root /usr/local/bin/fixuid \
     && chmod 4755 /usr/local/bin/fixuid \
     && ln -s /usr/local/bin/fixuid /usr/bin/fixuid \
