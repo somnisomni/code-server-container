@@ -22,20 +22,13 @@ LABEL description="Customized code-server Docker image for somni"
 # Specify the architecture when build the image, with `--build-arg` option
 # Default target architecture is `amd64`, possible value is `arm64` for AArch64
 ARG ARCH=amd64
+RUN echo "* Architecture: ${ARCH}"
 
 ##### INSTALLATION OF REQUIRED PACKAGES #####
 # Workaround: pre-setup `tzdata` to prevent stuck during package installation
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
-
-# Install Microsoft .NET repository package
-RUN apt-get update -y; \
-    apt-get install --no-install-recommends -y apt-utils ca-certificates dpkg lsb-release wget; \
-    \
-    wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" -O /tmp/packages-microsoft-prod.deb \
-    && dpkg -i /tmp/packages-microsoft-prod.deb \
-    && rm -f /tmp/packages-microsoft-prod.deb
 
 # Update package manifests & upgrade existing packages
 RUN apt-get update -y; \
@@ -81,9 +74,10 @@ RUN apt-get install --no-install-recommends -y \
     python3 \
     python3-pip
 
-# Install .NET SDK 6.0
-RUN apt-get install --no-install-recommends -y \
-    dotnet-sdk-6.0
+# Install latest .NET SDK using `dotnet-install` script
+RUN wget -q "https://dot.net/v1/dotnet-install.sh" -O /tmp/dotnet-install.sh; \
+    chmod +x /tmp/dotnet-install.sh; \
+    bash /tmp/dotnet-install.sh --channel Current --install-dir /usr/share/dotnet
 
 # Register en-US / ko-KR locales
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8; \
@@ -94,7 +88,7 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 # Install code-server
 RUN CODE_VERSION=$(curl -sL https://api.github.com/repos/cdr/code-server/releases/latest | grep '"name"' | head -1 | awk -F '[:]' '{print $2}' | sed -e 's/"//g' | sed -e 's/,//g' | sed -e 's/ //g' | sed -e 's/\r//g') \
     && CODE_VERSION_WITHOUT_V=$(echo $CODE_VERSION | sed -e 's/v//g') \
-    && curl -fsL "https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
+    && curl -L "https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
     && mv /usr/local/bin/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH} /usr/local/bin/code-server \
     && ln -s /usr/local/bin/code-server/bin/code-server /usr/bin/code-server
 
@@ -105,12 +99,11 @@ RUN chmod +x /tmp/branding.sh \
     && rm -f /tmp/branding.sh
 
 # Install fixuid
-RUN \
-    FIXUID_VERSION=$(curl -sL https://api.github.com/repos/boxboat/fixuid/releases/latest | grep '"name"' | head -1 | awk -F '[:]' '{print $2}' | sed -e 's/"//g' | sed -e 's/,//g' | sed -e 's/ //g' | sed -e 's/\r//g') \
+RUN FIXUID_VERSION=$(curl -sL https://api.github.com/repos/boxboat/fixuid/releases/latest | grep '"name"' | head -1 | awk -F '[:]' '{print $2}' | sed -e 's/"//g' | sed -e 's/,//g' | sed -e 's/ //g' | sed -e 's/\r//g') \
     && FIXUID_VERSION_WITHOUT_V=$(echo $FIXUID_VERSION | sed -e 's/v//g') \
     && USER=coder \
     && GROUP=coder \
-    && curl -fsL "https://github.com/boxboat/fixuid/releases/download/${FIXUID_VERSION}/fixuid-${FIXUID_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
+    && curl -L "https://github.com/boxboat/fixuid/releases/download/${FIXUID_VERSION}/fixuid-${FIXUID_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
     && chown root:root /usr/local/bin/fixuid \
     && chmod 4755 /usr/local/bin/fixuid \
     && ln -s /usr/local/bin/fixuid /usr/bin/fixuid \
@@ -178,7 +171,8 @@ RUN sudo chown -R coder:coder /home/coder
 EXPOSE 8080
 
 # Expose: development servers
-EXPOSE 30000-30002
+EXPOSE 39001
+EXPOSE 39002
 
 # Entrypoint
 ENTRYPOINT ["/usr/bin/entrypoint.sh",    \

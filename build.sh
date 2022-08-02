@@ -5,4 +5,4 @@
 
 IMAGE_TAG_NAME=somni-code-server
 
-docker build --rm --tag $IMAGE_TAG_NAME:latest $(dirname $0)
+podman build --rm --build-arg ARCH=$(dpkg --print-architecture) --tag $IMAGE_TAG_NAME:latest $(dirname $0)

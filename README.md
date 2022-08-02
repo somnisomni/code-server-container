@@ -19,7 +19,7 @@ Just execute `$ docker build .` on root of the repository, or run `build.sh` scr
 
 ## Port exposes
   - `code-server` itself : **8080**
-  - Development server *<small>(e.g. Live Server)</small>* : **30000 - 30002**
+  - Development server *<small>(e.g. Live Server)</small>* : **39001**, **39002**
 
 ## Note
 **Huge image** *(about 1~2GB)* will be produced when build this customized Dockerfile
