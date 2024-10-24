@@ -41,9 +41,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
 # Update package manifests & upgrade existing packages
-RUN apt update -y; \
-    apt install -f -y; \
-    apt upgrade -y
+RUN apt-get update -y; \
+    apt-get install -f -y; \
+    apt-get upgrade -y
 
 # Install common packages
 RUN apt-get install --no-install-recommends -y \
