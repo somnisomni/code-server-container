@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
 ### [ somnisomni/docker-code-server ]
-### Simple Dockerfile build script
+### Simple Containerfile build script
 
-IMAGE_TAG_NAME=somni-code-server
+IMAGE_TAG_NAME=somni-code-server-podman
 
-docker build --rm \
+podman build --rm \
 	--build-arg ARCH=$(dpkg --print-architecture) \
-	--build-arg UID=$(id -u) \
-	--build-arg GID=$(id -g) \
 	--tag $IMAGE_TAG_NAME:latest \
+	-f Containerfile \
 	$(dirname $0)
