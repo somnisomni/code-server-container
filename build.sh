@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-### [ somnisomni/docker-code-server ]
+### [ somnisomni/code-server-container ]
 ### Simple Containerfile build script
 
-IMAGE_TAG_NAME=somni-code-server-podman
+IMAGE_TAG_NAME=somni-code-server
 
 podman build --rm \
 	--build-arg ARCH=$(dpkg --print-architecture) \

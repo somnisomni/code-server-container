@@ -11,7 +11,7 @@ Podman is supported. Docker is may not supported.
 ## Customizations against vanilla image
   - Based on [latest Ubuntu LTS image](https://hub.docker.com/_/ubuntu)
   - Use `KST` timezone
-  - `ko_KR` locale/language registered
+  - `ko_KR` locale/language registered (but uses `en_US.UTF-8` as default)
   - `.NET SDK` preinstalled
   - `dpkg-dev` preinstalled for debian packaging development
   - Latest `GCC` and `build-essential` preinstalled

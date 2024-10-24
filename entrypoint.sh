@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-### [ somnisomni/docker-code-server ]
-### code-server daemon entrypoint script
+### [ somnisomni/code-server-container ]
+### code-server entrypoint script
 
 set -eu
 
@@ -13,5 +13,4 @@ echo "  Current group = $(id -gn)"
 echo "  Entrypoint arguments = ${@}"
 echo
 
-export USER="$(whoami)"
 dumb-init fixuid -q /usr/bin/code-server $(echo "${@}" | sed -e "s|{0}|$CODE_DATA|g" | sed -e "s|{1}|$CODE_EXTENSIONS|g")

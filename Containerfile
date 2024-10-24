@@ -1,4 +1,4 @@
-### [ somnisomni/docker-code-server ]
+### [ somnisomni/code-server-container ]
 ### code-server Containerfile (specific build instruction file for Podman)
 
 ## Dockerfile referenced from https://github.com/monostream/code-server
@@ -12,11 +12,11 @@
 #        DO NOT START THE CONTAINER WITH ROOT USER/PERMISSION
 #################################################################################
 
-# Use latest Ubuntu LTS image as base
-FROM docker.io/ubuntu:latest
+# Use latest Debian Unstable image as base
+FROM docker.io/debian:unstable-slim
 
-LABEL org.opencontainers.image.url="https://github.com/somnisomni/docker-code-server"
-LABEL org.opencontainers.image.source="https://github.com/somnisomni/docker-code-server"
+LABEL org.opencontainers.image.url="https://github.com/somnisomni/code-server-container"
+LABEL org.opencontainers.image.source="https://github.com/somnisomni/code-server-container"
 LABEL org.opencontainers.image.authors="me@somni.one"
 LABEL maintainer="me@somni.one"
 LABEL org.opencontainers.image.description="Customized code-server container image for somni"
@@ -41,9 +41,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
 # Update package manifests & upgrade existing packages
-RUN apt-get update -y; \
-    apt-get install -f -y; \
-    apt-get upgrade -y
+RUN apt update -y; \
+    apt install -f -y; \
+    apt upgrade -y
 
 # Install common packages
 RUN apt-get install --no-install-recommends -y \
@@ -93,6 +93,7 @@ RUN wget -q "https://dot.net/v1/dotnet-install.sh" -O /tmp/dotnet-install.sh; \
 # Register en-US / ko-KR locales
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8; \
     localedef -i ko_KR -c -f UTF-8 -A /usr/share/locale/locale.alias ko_KR.UTF-8
+ENV LANG=en_US.UTF-8
 
 
 ##### CODE-SERVER INSTALLATION #####
@@ -127,9 +128,6 @@ RUN chmod +x /usr/bin/entrypoint.sh
 
 
 ##### SETUP CONTAINER ENVIRONMENT #####
-# Set language envvar to Korean UTF-8
-ENV LANG=ko_KR.utf8
-
 # .NET envvars
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DISABLE_TELEMETRY=true \
