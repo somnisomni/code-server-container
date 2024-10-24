@@ -87,7 +87,7 @@ RUN apt-get install --no-install-recommends -y \
 # Install latest .NET SDK using `dotnet-install` script
 RUN wget -q "https://dot.net/v1/dotnet-install.sh" -O /tmp/dotnet-install.sh; \
     chmod +x /tmp/dotnet-install.sh; \
-    sudo bash /tmp/dotnet-install.sh --channel Current --install-dir /usr/share/dotnet; \
+    sudo bash /tmp/dotnet-install.sh --channel LTS --install-dir /usr/share/dotnet; \
     rm -f /tmp/dotnet-install.sh
 
 # Register en-US / ko-KR locales
