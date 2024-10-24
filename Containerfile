@@ -87,7 +87,7 @@ RUN apt-get install --no-install-recommends -y \
 # Install latest .NET SDK using `dotnet-install` script
 RUN wget -q "https://dot.net/v1/dotnet-install.sh" -O /tmp/dotnet-install.sh; \
     chmod +x /tmp/dotnet-install.sh; \
-    bash /tmp/dotnet-install.sh --channel Current --install-dir /usr/share/dotnet; \
+    sudo bash /tmp/dotnet-install.sh --channel Current --install-dir /usr/share/dotnet; \
     rm -f /tmp/dotnet-install.sh
 
 # Register en-US / ko-KR locales
@@ -99,9 +99,9 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 # Install code-server
 RUN CODE_VERSION=$(curl -sL https://api.github.com/repos/cdr/code-server/releases/latest | grep '"name"' | head -1 | awk -F '[:]' '{print $2}' | sed -e 's/"//g' | sed -e 's/,//g' | sed -e 's/ //g' | sed -e 's/\r//g') \
     && CODE_VERSION_WITHOUT_V=$(echo $CODE_VERSION | sed -e 's/v//g') \
-    && curl -L "https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | tar -zx -C /usr/local/bin \
-    && mv /usr/local/bin/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH} /usr/local/bin/code-server \
-    && ln -s /usr/local/bin/code-server/bin/code-server /usr/bin/code-server
+    && curl -L "https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH}.tar.gz" | sudo tar -zx -C /usr/local/bin \
+    && sudo mv /usr/local/bin/code-server-${CODE_VERSION_WITHOUT_V}-linux-${ARCH} /usr/local/bin/code-server \
+    && sudo ln -s /usr/local/bin/code-server/bin/code-server /usr/bin/code-server
 
 # code-server custom branding
 COPY branding.sh /tmp/branding.sh
