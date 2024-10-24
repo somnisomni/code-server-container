@@ -71,9 +71,9 @@ RUN apt-get install --no-install-recommends -y \
 # Install essential packages for building sources / Install DPKG-dev
 RUN apt-get install --no-install-recommends -y \
     build-essential \
-    gcc-12 \
-    cpp-12 \
-    g++-12 \
+    gcc-14 \
+    cpp-14 \
+    g++-14 \
     dpkg-dev \
     make \
     patch \
@@ -154,7 +154,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh" | 
     && export NVM_DIR="$HOME/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && nvm install --lts --latest-npm \
-    && npm install --location=global yarn
+    && corepack enable
 
 
 ##### CLEANUP & FINALIZE #####
