@@ -9,7 +9,7 @@ Just execute `$ podman build .` on root of the repository, or run `build.sh` scr
 Podman is supported. Docker is may not supported.
 
 ## Customizations against vanilla image
-  - Based on [latest Ubuntu LTS image](https://hub.docker.com/_/ubuntu)
+  - Based on [latest Debian Unstable image](https://hub.docker.com/_/debian)
   - Use `KST` timezone
   - `ko_KR` locale/language registered (but uses `en_US.UTF-8` as default)
   - `.NET SDK` preinstalled
